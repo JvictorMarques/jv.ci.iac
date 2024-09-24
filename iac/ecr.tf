@@ -9,4 +9,4 @@ resource "aws_ecr_repository" "jv-ci-api" {
   tags = {
     IAC = "True"
   }
-}
+} 
