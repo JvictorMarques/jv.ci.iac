@@ -13,31 +13,25 @@ resource "aws_iam_openid_connect_provider" "oidc-github" {
 }
 
 resource "aws_iam_role" "tf-role" {
-  name = "tf-role"
+  name = "rf-role"
 
-    assume_role_policy = jsonencode(
-    {
-      Version : "2012-10-17",
-      Statement : [
-        {
-          Effect : "Allow",
-          Action : "sts:AssumeRoleWithWebIdentity",
-          Principal : {
-            "Federated" : "arn:aws:iam::864981720117:oidc-provider/token.actions.githubusercontent.com"
-          },
-          Condition : {
-            StringEquals : {
-              "token.actions.githubusercontent.com:aud" : [
-                "sts.amazonaws.com.cn"
-              ],
-              "token.actions.githubusercontent.com:sub" : [
-                "repo:JvictorMarques/jv.ci.iac:ref:refs/heads/main"
-              ]
-            }
-          }
+  assume_role_policy = jsonencode({
+    Statement = [{
+      Action = "sts:AssumeRoleWithWebIdentity"
+      Condition = {
+        StringEquals = {
+          "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com.cn"
+          "token.actions.githubusercontent.com:sub" = "repo:JvictorMarques/jv.ci.iac:ref:refs/heads/main"
         }
-      ]
+      }
+      Effect = "Allow"
+      Principal = {
+        Federated = "arn:aws:iam::864981720117:oidc-provider/token.actions.githubusercontent.com"
+      }
+    }]
+    Version = "2012-10-17"
   })
+
   tags = {
     IAC = "True"
   }
