@@ -31,7 +31,7 @@ resource "aws_iam_role" "tf-role" {
                 "sts.amazonaws.com.cn"
               ],
               "token.actions.githubusercontent.com:sub" : [
-                "repo:JvictorMarques/pipelines.ci.api:ref:refs/heads/main"
+                "repo:JvictorMarques/jv.ci.iac:ref:refs/heads/main"
               ]
             }
           }
